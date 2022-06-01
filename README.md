@@ -42,50 +42,12 @@ Please reach out to us at nle@mpifr-bonn.mpg.de
 # Citations
 If you use this code for your scientific projects, please cite
 
-1- @ARTICLE{2020ApJ...896...44L,
-       
-       author = {{Lee}, Hyeseung and {Hoang}, Thiem and {Le}, Ngan and {Cho}, Jungyeon},
-        
-        title = "{Physical Model of Dust Polarization by Radiative Torque Alignment and Disruption and Implications for Grain Internal Structures}",
-      
-      journal = {\apj},
-     
-     keywords = {Interstellar medium, Starlight polarization, Interstellar radiation field, Interstellar dust extinction, 847, 1571, 852, 837, Astrophysics - Astrophysics of Galaxies, Astrophysics - Solar and Stellar Astrophysics},
-         
-         year = 2020,
-        
-        month = jun,
-       
-       volume = {896},
-       
-       number = {1},
-          
-          eid = {44},
-        
-        pages = {44},
-          
-          doi = {10.3847/1538-4357/ab8e33}}
+\bibitem[{{Lee} {et~al.}(2020){Lee}, {Hoang}, {Le}, \&
+  {Cho}}]{2020ApJ...896...44L}
+{Lee}, H., {Hoang}, T., {Le}, N., \& {Cho}, J. 2020, \apj, 896, 44,
+  \dodoi{10.3847/1538-4357/ab8e33}
 
-2- @ARTICLE{2021ApJ...906..115T,
-       
-       author = {{Tram}, Le Ngoc and {Hoang}, Thiem and {Lee}, Hyeseung and {Santos}, Fabio P. and {Soam}, Archana and {Lesaffre}, Pierre and {Gusdorf}, Antoine and {Reach}, William T.},
-        
-        title = "{Understanding Polarized Dust Emission from {\ensuremath{\rho}} Ophiuchi A in Light of Grain Alignment and Disruption by Radiative Torques}",
-      
-      journal = {\apj},
-     
-     keywords = {Interstellar radiation field, Interstellar dust, Interstellar medium, Interstellar dust extinction, Polarimetry, 852, 836, 847, 837, 1278, Astrophysics - Astrophysics of Galaxies},
-         
-         year = 2021,
-        
-        month = jan,
-       
-       volume = {906},
-       
-       number = {2},
-          
-          eid = {115},
-        
-        pages = {115},
-          
-          doi = {10.3847/1538-4357/abc6fe}}
+\bibitem[{{Tram} {et~al.}(2021{\natexlab{a}}){Tram}, {Hoang}, {Lee}, {Santos},
+  {Soam}, {Lesaffre}, {Gusdorf}, \& {Reach}}]{2021ApJ...906..115T}
+{Tram}, L.~N., {Hoang}, T., {Lee}, H., {et~al.} 2021{\natexlab{a}}, \apj, 906,
+  115, \dodoi{10.3847/1538-4357/abc6fe}
