@@ -65,7 +65,6 @@ If you use this code for your scientific projects, please cite
         pages = {44},
           
           doi = {10.3847/1538-4357/ab8e33},
-
 }
 
 2- @ARTICLE{2021ApJ...906..115T,
@@ -91,5 +90,4 @@ If you use this code for your scientific projects, please cite
         pages = {115},
           
           doi = {10.3847/1538-4357/abc6fe},
-
 }
