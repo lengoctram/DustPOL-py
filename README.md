@@ -10,7 +10,7 @@ Hyeseung Lee and Le Ngoc Tram
 
 Current version is idealization for PDR regions
 
-Next version will be developed for starless and prostostellar cores
+Up next version will be developed for starless and prostostellar cores
 
 # Dependencies
 
