@@ -46,7 +46,7 @@ If you use this code for your scientific projects, please cite
 {Lee}, H., {Hoang}, T., {Le}, N., \& {Cho}, J. 2020, \apj, 896, 44,
   \dodoi{10.3847/1538-4357/ab8e33}
 
-\bibitem[{{Tram} {et~al.}(2021{\natexlab{a}}){Tram}, {Hoang}, {Lee}, {Santos},
+\bibitem[{{Tram} {et~al.}(2021{\natexlab{a}}){Tram}, {Hoang}, {Lee}, {Santos}, 
   {Soam}, {Lesaffre}, {Gusdorf}, \& {Reach}}]{2021ApJ...906..115T}
 {Tram}, L.~N., {Hoang}, T., {Lee}, H., {et~al.} 2021{\natexlab{a}}, \apj, 906,
   115, \dodoi{10.3847/1538-4357/abc6fe}
