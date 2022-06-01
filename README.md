@@ -4,7 +4,7 @@ This numerical modelling calculates multi-wavelength polarization degree of ther
 based on Radiative Torque alignment theory and Radiative Torque Disruption.
 
 # Authors
-Hyeseung Lee and Le Ngoc Tram
+Le Ngoc Tram, Hyeseung Lee, and Thiem Hoang
 
 # Features
 
