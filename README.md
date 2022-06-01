@@ -22,6 +22,8 @@ Next version will be developed for starless and prostostellar cores
 
 4- scipy
 
+5- Astropy
+
 # How to use
 
 1- From Termial and type: python DustPOL.py -f <name_of_inputs_file>
