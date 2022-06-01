@@ -3,11 +3,14 @@ numerical modelling
 This numerical modelling calculates multi-wavelength polarization degree of thermal dust emission 
 based on Radiative Torque alignment theory and Radiative Torque Disruption.
 
+# Author
+Hyeuseng Lee and Le Ngoc Tram
+
 # Features
 
-Current version is Idealization for PDR regions
+Current version is idealization for PDR regions
 
-Next version will be work for starless and prostostellar cores
+Next version will be developed for starless and prostostellar cores
 
 # dependencies
 
