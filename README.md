@@ -14,13 +14,13 @@ Up next version will be developed for starless and prostostellar cores
 
 # Dependencies
 
-1- python 3
+1- Python 3
 
-2- numpy
+2- Numpy
 
-3- matplotlib
+3- Matplotlib
 
-4- scipy
+4- Scipy
 
 5- Astropy
 
