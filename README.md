@@ -32,7 +32,7 @@ Up next version will be developed for starless and prostostellar cores
 # Bugs
 Please reach out to us at nle@mpifr-bonn.mpg.de 
 
-# More more information, please read
+# More information, please read
 
 1- Lee et al. (2020) https://ui.adsabs.harvard.edu/abs/2020ApJ...896...44L
 
