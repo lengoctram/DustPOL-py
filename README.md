@@ -25,9 +25,9 @@ Up next version will be developed for starless and prostostellar cores
 
 # How to use
 
-1- From Termial and type: python DustPOL.py -f <name_of_inputs_file>
+1- From Termial, type python DustPOL.py -f <name_of_inputs_file>
 
-2- From interactive ipython: run DustPOL.py -f <name_of_inputs_file>
+2- From interactive ipython, type run DustPOL.py -f <name_of_inputs_file>
 
 # Bugs
 Please reach out to us at nle@mpifr-bonn.mpg.de 
