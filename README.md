@@ -1,4 +1,4 @@
-# DustPOL - numerical modelling
+# DustPOL - numerical modelling - v1.0
 This numerical modelling calculates multi-wavelength polarization degree of thermal dust emission 
 based on Radiative Torque alignment theory and Radiative Torque Disruption.
 
