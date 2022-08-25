@@ -7,7 +7,7 @@ Le Ngoc Tram, Hyeseung Lee, and Thiem Hoang
 
 # Features
 
-Current version is idealization for PDR regions
+Current version is idealization for PDR regions and diffuse ISM
 
 Up next version will be developed for starless and prostostellar cores
 
