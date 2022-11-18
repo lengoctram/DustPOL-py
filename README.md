@@ -30,6 +30,7 @@ Up next version will be developed for starless and prostostellar cores
                       e.g., python DustPOL.py -f inputs_test.dustpol
                       
 2- From interactive ipython, type run DustPOL.py -f <name_of_inputs_file>
+
                       e.g., run DustPOL.py - f inputs_test.dustpol
 
 # Bugs
