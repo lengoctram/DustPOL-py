@@ -50,10 +50,10 @@ def DustPol(iu):
 
     # ----- dust temperature and its probability distribution -----
     ##[!warning] UINIDEX here is slightly different from other UINDEX
-    ##           Because we tabulate the DDSCAT's results 
-    idx = abs(Urange_DDSCAT-UINDEX).argmin()
-    UINDEX_ddscat = Urange_DDSCAT[idx]
-    qT = rad_func.T_dust(na,UINDEX_ddscat)#T_dust(na,UINDEX)
+    ##           Because we tabulate the DustEM's results 
+    idx = abs(Urange_DustEM-UINDEX).argmin()
+    UINDEX_dustem = Urange_DustEM[idx]
+    qT = rad_func.T_dust(na,UINDEX_dustem)#T_dust(na,UINDEX)
     T_gra = qT[0]
     T_sil = qT[1]
     dP_dlnT_gra = qT[2]
