@@ -135,20 +135,20 @@ else:
         raise IOError('Values of U')
 
 # -------------------------------------------------------------------------
-# DDSCAT
+# DustEM
 # -------------------------------------------------------------------------
-##[!Warning] we don't incorporate the DDSCAT code, but we instead tabulate for a
+##[!Warning] we don't incorporate the DustEM code, but we instead tabulate for a
 #set of radiation strength (U)
-DDSCAT_path = 'data/'
-all_folders = os.listdir(DDSCAT_path)
-DDSCAT_tab  = [all_folders[i] for i in range(len(all_folders)) if 'U=' in all_folders[i]]
-Urange_DDSCAT=[eval(re.findall("\d+\.\d+", DDSCAT_tab[i])[0]) for i in range(len(DDSCAT_tab))]
-Urange_DDSCAT.sort()
+DustEM_path = 'data/'
+all_folders = os.listdir(DustEM_path)
+DustEM_tab  = [all_folders[i] for i in range(len(all_folders)) if 'U=' in all_folders[i]]
+Urange_DustEM=[eval(re.findall("\d+\.\d+", DustEM_tab[i])[0]) for i in range(len(DustEM_tab))]
+Urange_DustEM.sort()
 ##Checking for the input Urange
 for i in range(len(Urange)):
-    if Urange[i]<min(Urange_DDSCAT) or Urange[i]>max(Urange_DDSCAT):
-        log.error("Your value of U=%.3f is beyond the DDSCAT's tabulation [%.1f,%.1f] [\033[1;5;7;91m failed \033[0m]"\
-                    %(Urange[i],min(Urange_DDSCAT),max(Urange_DDSCAT)))
+    if Urange[i]<min(Urange_DustEM) or Urange[i]>max(Urange_DustEM):
+        log.error("Your value of U=%.3f is beyond the DustEM's tabulation [%.1f,%.1f] [\033[1;5;7;91m failed \033[0m]"\
+                    %(Urange[i],min(Urange_DustEM),max(Urange_DustEM)))
         raise IOError('Value of U')
 
 # -------------------------------------------------------------------------
