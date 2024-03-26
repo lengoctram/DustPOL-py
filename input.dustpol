@@ -8,7 +8,7 @@ wave           850      ![um]: interested wavelength
 !--------------------------------------------------------------------------------------------
 ! RADIATION SETTING
 !--------------------------------------------------------------------------------------------
-U              1,10,100,1000      !U=u_rad/u_ISRF: numerics or 'Tdust'
+U              10       !U=u_rad/u_ISRF: numerics or 'Tdust'
                         ! if cloud=='Mathis83', code will estimate it using Mathis83 database
                         ! if cloud=='MC', give the number: int,float or array
                         !    --> if U=='Tdust': U from thermal-equilib.
