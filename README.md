@@ -14,13 +14,13 @@ Up next version will be developed for starless and prostostellar cores
 # History:
 2024   : Tram implemented a two-phase model: cold and warm dust layers along the LOS
 
-2023   : Tram extended the maximum grain size to lower than 1um
+2023   : Tram improved the code to work with maximum grain size lower than the disruption size
 
 2022   : Thiem implemented MRAT in align.py to account for iron inclusions
 
 2020   : Tram improved Hyeseung's code
 
-2019   : Hyeseung modified the Dustpol Code from Thiem, adding RATD (maximum grain size is set 1um or 2um)
+2019   : Hyeseung modified the Dustpol Code from Thiem, adding RATD (maximum grain size is higher than the disruption size)
 
 # Dependencies
 
