@@ -46,6 +46,12 @@ Up next version will be developed for starless and prostostellar cores
 
                       e.g., run DustPOL.py - f input.dustpol
 
+3- Run for multiple radiation field: in the input.dustpol, set "U" as
+
+                      e.g., U 1,10,100,1000
+
+4- Parallel computing: in the input.dustpol, set "parallel" as True
+
 # Bugs
 Please reach out to us at nle@mpifr-bonn.mpg.de 
 
