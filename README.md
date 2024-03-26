@@ -32,6 +32,8 @@ Up next version will be developed for starless and prostostellar cores
 
 5- Astropy
 
+6- Joblib for parallelization (installation: https://joblib.readthedocs.io/en/latest/installing.html)
+
 # How to use
 
 1- From Terminal, type python DustPOL.py -f <name_of_inputs_file>
