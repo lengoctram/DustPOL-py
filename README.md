@@ -14,7 +14,7 @@ Up next version will be developed for starless and prostostellar cores
 # History:
 2024   : Tram implemented a two-phase model: cold and warm dust layers along the LOS
 
-2023   : Tram improved the code to work with maximum grain size lower than the disruption size
+2023   : Tram optimized and improved the code to work with maximum grain size lower than the disruption size
 
 2022   : Thiem implemented MRAT in align.py to account for iron inclusions
 
