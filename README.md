@@ -41,10 +41,12 @@ Up next version will be developed for starless and prostostellar cores
 1- From Terminal, type python DustPOL.py -f <name_of_inputs_file>
 
                       e.g., python DustPOL.py -f input.dustpol
+      to have a first look: python DustPOL.py -f input.dustpol --first_look yes
                       
 2- From interactive ipython, type run DustPOL.py -f <name_of_inputs_file>
 
                       e.g., run DustPOL.py - f input.dustpol
+      to have a first look: run DustPOL.py -f input.dustpol --first_look yes
 
 3- Run for multiple radiation field: in the input.dustpol, set "U" as
 
