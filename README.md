@@ -63,6 +63,8 @@ Please reach out to us at nle@mpifr-bonn.mpg.de
 
 2- Tram et al. (2021) https://ui.adsabs.harvard.edu/abs/2021ApJ...906..115T
 
+3- Tram et al. (2024) https://arxiv.org/abs/2403.17088 (accepted to A&A)
+
 # Citations
 If you use this code for your scientific projects, please cite
 
