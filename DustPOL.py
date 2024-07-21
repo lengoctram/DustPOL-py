@@ -1,4 +1,4 @@
-import os
+import os, numpy
 from plt_setup import *
 from read import *
 import importlib
