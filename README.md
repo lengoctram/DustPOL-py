@@ -1,6 +1,8 @@
 # DustPOL - numerical modelling - v1.5
-This numerical modelling calculates the multi-wavelength polarization degree of absorption and thermal dust emission 
+-- This numerical modelling calculates the multi-wavelength polarization degree of absorption and thermal dust emission 
 based on Radiative Torque alignment (RAT-A), Magnetically enhanced RAT (MRAT) and Radiative Torque Disruption (RAT-D).
+
+-- The routine will save the output files (wavelength and degree of polarization) for further analysis
 
 # Authors
 Le Ngoc Tram, Hyeseung Lee, and Thiem Hoang
@@ -9,7 +11,9 @@ Le Ngoc Tram, Hyeseung Lee, and Thiem Hoang
 Current version is idealization for PDR regions and diffuse ISM
 Current version is designed to predict the polarization spectrum for one- or two-dust layers
 
+# Upnext
 Up next version will be developed for starless and prostostellar cores
+The manual and web-interface will be soon released
 
 # History:
 2024   : Tram implemented a two-phase model: cold and warm dust layers along the LOS
