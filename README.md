@@ -42,6 +42,8 @@ The manual and web-interface will be soon released
 
 # How to use
 
+0- [Note] The outputs are saved in your local directory
+
 1- From Terminal, type python DustPOL.py -f <name_of_inputs_file>
 
                       e.g., python DustPOL.py -f input.dustpol
