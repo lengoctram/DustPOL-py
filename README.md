@@ -1,4 +1,4 @@
-# DustPOL - numerical modelling - v1.5
+# 'DustPOL-py' - numerical modelling - v1.5
 -- This numerical modelling calculates the multi-wavelength polarization degree of absorption and thermal dust emission 
 based on Radiative Torque alignment (RAT-A), Magnetically enhanced RAT (MRAT) and Radiative Torque Disruption (RAT-D).
 
