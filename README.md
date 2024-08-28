@@ -4,7 +4,7 @@ based on Radiative Torque alignment (RAT-A), Magnetically enhanced RAT (MRAT) an
 
 -- The routine will save the output files (wavelength and degree of polarization) for further analysis
 
--- A web-interface GUI: [https://dustpol-gui.streamlit.app]https://dustpol-gui.streamlit.app
+-- A web-interface GUI: https://dustpol-gui.streamlit.app
 
 # Authors
 Le Ngoc Tram, Hyeseung Lee, and Thiem Hoang
