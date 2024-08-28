@@ -4,6 +4,8 @@ based on Radiative Torque alignment (RAT-A), Magnetically enhanced RAT (MRAT) an
 
 -- The routine will save the output files (wavelength and degree of polarization) for further analysis
 
+-- A web-interface GUI: [https://dustpol-gui.streamlit.app]https://dustpol-gui.streamlit.app
+
 # Authors
 Le Ngoc Tram, Hyeseung Lee, and Thiem Hoang
 
@@ -13,7 +15,6 @@ Current version is designed to predict the polarization spectrum for one- or two
 
 # Upnext
 Up next version will be developed for starless and prostostellar cores
-The manual and web-interface will be soon released
 
 # History:
 2024   : Tram implemented a two-phase model: cold and warm dust layers along the LOS
