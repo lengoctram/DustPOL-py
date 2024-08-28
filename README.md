@@ -10,7 +10,7 @@ based on Radiative Torque alignment (RAT-A), Magnetically enhanced RAT (MRAT) an
 Le Ngoc Tram, Hyeseung Lee, and Thiem Hoang
 
 # Features
-Current version is idealization for PDR regions and diffuse ISM
+Current version is idealization for diffuse ISM, molecular clouds and star-forming regions
 Current version is designed to predict the polarization spectrum for one- or two-dust layers
 
 # Upnext
