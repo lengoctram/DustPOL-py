@@ -40,6 +40,7 @@ class isoCloud_profile(object):
         self.rout    = parent.rout
         self.nsample = parent.nsample
         self.rflat   = parent.rflat
+        self.p       = parent.p
 
         # log.info('max(a)=%.3f (um)'%(self.a.max()*1e4))
         # log.info('n0_gas=%.3e'%(self.n0_gas))
@@ -53,7 +54,7 @@ class isoCloud_profile(object):
         self.x = self.y = self.z = np.concatenate((-self.rr[::-1],np.array([0]),self.rr[::1]))
         self.X,  self.Y = np.meshgrid(self.x, self.y); self.Z=self.Y
         
-        self.nH = np.array([self.ngas_starless(self.n0_gas,self.rflat)(ri) for ri in self.rr])
+        self.nH = np.array([self.ngas_starless(self.n0_gas,self.rflat,self.p)(ri) for ri in self.rr])
 
         self.Av_map          = np.zeros((len(self.x),len(self.y)))
         self.Av_map_2calcule = np.zeros((len(self.x),len(self.z)))
@@ -97,7 +98,7 @@ class isoCloud_profile(object):
         rnew=self.rr[msk]
         nnew=self.nH[msk]
         s = np.sqrt(rnew*rnew - r0*r0) ##conversion variable from 'r' to 's'
-        nn0=self.ngas_starless(self.n0_gas,self.rflat)(np.array([r0]))
+        nn0=self.ngas_starless(self.n0_gas,self.rflat,self.p)(np.array([r0]))
         if isinstance(nn0,float):
             nn0=np.array([nn0])
         n = np.concatenate((nnew[::-1],nn0,nnew[::1]))
@@ -212,7 +213,7 @@ class isoCloud_profile(object):
         self.isoCloud_model(parent)
         def func_para(i,j):
             r = np.sqrt(self.X[i,j]*self.X[i,j]+self.Z[i,j]*self.Z[i,j])
-            return self.Av_2calcule(self.n0_gas,self.rflat)(r)
+            return self.Av_2calcule(self.n0_gas,self.rflat,self.p)(r)
 
         out=Parallel(n_jobs=-1,verbose=1)(delayed(func_para)(i, j) for i in range(len(self.x)) for j in range(len(self.z)))
         i=0
@@ -272,11 +273,11 @@ class isoCloud_profile(object):
             if r>=self.rr.max():
                 return np.nan
             else:
-                Av = self.Av_2calcule(self.n0_gas,self.rflat)(r)
+                Av = self.Av_2calcule(self.n0_gas,self.rflat,self.p)(r)
                 self.U = self.U_starless(self.U0,Av)
                 self.Tgas=self.Tgas_starless(self.U0,Av,self.T0_gas)
                 self.mean_lam=self.lamda_starless(self.mean_lam0,Av)
-                self.ngas=self.ngas_starless(self.n0_gas,self.rflat)(r)
+                self.ngas=self.ngas_starless(self.n0_gas,self.rflat,self.p)(r)
                 ali_cl=align.alignment_class(self)
                 return ali_cl.Aligned_Size_v2()
 
@@ -301,7 +302,7 @@ class isoCloud_profile(object):
             if r>=self.rr.max():
                 return np.nan
             else:
-                Av=self.Av_2calcule(self.n0_gas,self.rflat)(r)
+                Av=self.Av_2calcule(self.n0_gas,self.rflat,self.p)(r)
                 return self.Tdust_starless(self.U0,Av,self.T0_gas,0.1e-4)
 
         out=Parallel(n_jobs=-1,verbose=1,prefer='threads')(delayed(func_para)(i, j) for i in range(len(self.x)) for j in range(len(self.z)))
@@ -325,7 +326,7 @@ class isoCloud_profile(object):
             if r>=self.rr.max():
                 return np.nan
             else:
-                Av=self.Av_2calcule(self.n0_gas,self.rflat)(r)
+                Av=self.Av_2calcule(self.n0_gas,self.rflat,self.p)(r)
                 return self.lamda_starless(self.mean_lam0,Av)
 
         out=Parallel(n_jobs=-1,verbose=1,prefer='threads')(delayed(func_para)(i, j) for i in range(len(self.x)) for j in range(len(self.z)))
@@ -338,7 +339,7 @@ class isoCloud_profile(object):
         return self.wavelength_map
 
     @auto_refresh
-    def Av_2calcule(self,n0,Rflat,Rv=4.0):
+    def Av_2calcule(self,n0,Rflat,p,Rv=4.0):
         """
             This function to calculate the Av from the cloud's surface to the core
             This function to returns the Av for radiation attenuation.
@@ -350,18 +351,19 @@ class isoCloud_profile(object):
                       If NA, Rv=4.0 
         """
         # def Av_inward_ana(r,p,n0,Rflat):
-        p=2.0#3./2
+        #p=2.0#3./2
         # r_ratio = r/Rflat
         Av_c = 10.3*(n0/1e8)*(Rflat/(10.*constants.au))*(Rv/4.0)
         return lambda r: np.where(r<=Rflat, Av_c*(p/(p-1)-r/Rflat), Av_c/(p-1)*pow(r/Rflat,1-p))
 
     @auto_refresh
-    def ngas_starless(self,n0,Rflat):
+    def ngas_starless(self,n0,Rflat,p):
         ##Any emprical formulation can be used
         ##here: Hoang et al. 2021 is adopted
         ##Note: r is the radial distance from center to the envelope
-        return lambda r: np.where(r<=Rflat, n0, n0*(r/Rflat)**(-2.0))
+        # return lambda r: np.where(r<=Rflat, n0, n0*(r/Rflat)**(-2.0))
         # return lambda r: np.where(r<=Rflat, n0, n0*(r/Rflat)**(-3./2))
+        return lambda r: np.where(r<=Rflat, n0, n0*(r/Rflat)**(-p))
 
     @auto_refresh
     def U_starless(self,U0,Av):

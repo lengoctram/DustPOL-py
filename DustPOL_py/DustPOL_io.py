@@ -27,9 +27,9 @@ class input():
         q = np.genfromtxt(inputs,skip_header=1,dtype=None,names=['names','params'],\
         comments='!',usecols=(0,1),encoding='utf=8')
         params     = q['params']
-        self.cloud      = params[0]
+        self.output_dir = params[0]
         self.ratd       = eval(params[1])
-        self.working_lam= eval(params[2])
+        self.p          = eval(params[2])
         self.rin        = eval(params[3]) * au #cm
         self.rout       = eval(params[4]) * au #cm
         self.rflat      = eval(params[5]) * au #cm
@@ -100,7 +100,8 @@ class output():
         # if not os.path.exists(subsubpath):
         #     os.mkdir(subsubpath)
 
-        subpath = 'output/'#self.path+'output/'
+        # subpath = 'output/'#self.path+'output/'
+        subpath =parent.output_dir+'/'
         if not os.path.exists(subpath):
             os.makedirs(subpath)
         self.filename=subpath+filename

@@ -74,7 +74,7 @@ class DustPOL:
         #     B_angle, Bfield, Ncl, phi_sp, fp, rflat, rout,nsample,
         #     path, pc
         # )
-
+        self.output_dir=params.output_dir
         self.U = params.U             #No-unit
         self.u_ISRF=params.u_ISRF     #erg cm-3
         self.gamma=params.gamma       #No-unit
@@ -106,8 +106,8 @@ class DustPOL:
         self.verbose=False
         self.Urange_tempdist=[]
 
-        ##test starless core
-        # self.n0_gas=1e5
+        ##parameters for isolated cloud
+        self.p     = params.p
         self.rflat = params.rflat #cm #17000.*constants.au.cgs.value
         self.rout  = params.rout  #cm #624.e6*constants.au.cgs.value
         self.nsample= params.nsample #int 5#50
@@ -443,7 +443,7 @@ class DustPOL:
                 continue        
             else:
                 #print('-----------Get the local computed Av-----------')
-                Av_compute[j]=isoCloud_exe.Av_2calcule(ngas_0,self.rflat,Rv=4.0)(r_compute)
+                Av_compute[j]=isoCloud_exe.Av_2calcule(ngas_0,self.rflat,self.p,Rv=4.0)(r_compute)
 
                 #get U from starless law
                 self.U = isoCloud_exe.U_starless(U_0,Av_compute[j])
@@ -461,7 +461,7 @@ class DustPOL:
                 self.mean_lam=isoCloud_exe.lamda_starless(1.3e-4,Av_compute[j])
 
                 # self.ngas=starless_exe.ngas_starless(ngas_0,self.rflat)(np.sqrt(z_[j]*z_[j]+r0*r0))                
-                self.ngas=isoCloud_exe.ngas_starless(ngas_0,self.rflat)(r_compute) 
+                self.ngas=isoCloud_exe.ngas_starless(ngas_0,self.rflat,self.p)(r_compute) 
                 # dtau=starless_exe.get_dtau(self,self.ngas)
                 # dtau_850 = interp1d(self.w,dtau,axis=0)(850e-4)*abs(z_[j])  
 
