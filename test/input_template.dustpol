@@ -60,7 +60,7 @@ Bfield 			600.0   ! strength of B-field (only active for MRAT)
 B_angle         90.0    ! [deg] inclination angle of B-field wrt. LOS
                         !     90deg: B-field completely on POS
 Ncl             10.     ! if RATalign==MRAT
-						!     * Ncl: number of iron atoms per cluster 
+                        !     * Ncl: number of iron atoms per cluster 
 phi_sp          0.1     !     * phi_sp: volume fitting factor of iron cluster (0.1=10%) 
 fp              0.1     !     * fp: Iron fraction of PM grains
 !--------------------------------------------------------------------------------------------
