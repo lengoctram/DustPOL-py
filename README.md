@@ -1,24 +1,44 @@
-# DustPOL-py - numerical modelling - v1.5
+---
+title: "DustPOL-py: a numerical modeling for linear dust polarization"
+---
+
+## DustPOL-py - numerical modelling - v1.6
 -- This numerical modelling calculates the multi-wavelength polarization degree of absorption and thermal dust emission 
 based on Radiative Torque alignment (RAT-A), Magnetically enhanced RAT (MRAT) and Radiative Torque Disruption (RAT-D).
 
--- The routine will save the output files (wavelength and degree of polarization) for further analysis
+-- The routine will save the output files (wavelength and degree of polarization) for further analysis. A built-in routine for analysis is also provided.
 
--- A web-interface GUI: https://dustpol-py.streamlit.app
+-- For a quick look and investigation, please use a web-interface GUI: <https://dustpol-py.streamlit.app>
 
--- The optimization version of DustPOL-py will be available soon.
+-- The high-performance-computation techniques are embedded.
 
-# Authors
-Le Ngoc Tram, Hyeseung Lee, and Thiem Hoang
+## Authors
+```Le Ngoc Tram```, Hyeseung Lee, and Thiem Hoang
 
-# Features
-Current version is idealization for diffuse ISM, molecular clouds and star-forming regions
-Current version is designed to predict the polarization spectrum for one- or two-dust layers
+## Contributors
+Pham N. Diep, Nguyen B. Ngoc, Bao Truong, Ngan Lê
 
-# Upnext
-Up next version will be developed for starless and prostostellar cores
+## Features
+-- Current version is designed to predict the polarization spectrum for starlight and thermal
 
-# History:
+-- diffuse ISM 
+
+-- molecular clouds and star-forming regions
+
+-- isolated dense cores (starless cores)
+
+## Upnext
+-- Globules/Pillars
+
+-- Protostars
+
+-- Protoplanetary disks
+
+## History:
+2024   : Tram added the modulation for starless core and embedded high-performance-computation techniques
+
+2024   : Tram re-structured the DustPOL-py infractructure to python class object (modulation)
+
 2024   : Tram implemented a two-phase model: cold and warm dust layers along the LOS
 
 2023   : Tram optimized and improved the code to work with maximum grain size lower than the disruption size
@@ -29,7 +49,7 @@ Up next version will be developed for starless and prostostellar cores
 
 2019   : Hyeseung modified the Dustpol Code from Thiem, adding RATD (maximum grain size is higher than the disruption size)
 
-# Dependencies
+## Dependencies
 
 1- Python 3
 
@@ -43,38 +63,20 @@ Up next version will be developed for starless and prostostellar cores
 
 6- Joblib for parallelization (installation: https://joblib.readthedocs.io/en/latest/installing.html)
 
-# How to use
+7- Concurrency for parallelization
 
-0- [Note] The outputs are saved in your local directory
+## Bugs
+Please reach out to us at <nle@strw.leidenuniv.nl> or <nle@mpifr-bonn.mpg.de>
 
-1- From Terminal, type python DustPOL.py -f <name_of_inputs_file>
+## More information, please read
 
-                      e.g., python DustPOL.py -f input.dustpol
-      to have a first look: python DustPOL.py -f input.dustpol --first_look yes
-                      
-2- From interactive ipython, type run DustPOL.py -f <name_of_inputs_file>
+1- Lee et al. (2020) <https://ui.adsabs.harvard.edu/abs/2020ApJ...896...44L>
 
-                      e.g., run DustPOL.py - f input.dustpol
-      to have a first look: run DustPOL.py -f input.dustpol --first_look yes
+2- Tram et al. (2021) <https://ui.adsabs.harvard.edu/abs/2021ApJ...906..115T>
 
-3- Run for multiple radiation field: in the input.dustpol, set "U" as
+3- Tram et al. (2024) <https://www.aanda.org/articles/aa/pdf/2024/09/aa50127-24.pdf>
 
-                      e.g., U 1,10,100,1000
-
-4- Parallel computing: in the input.dustpol, set "parallel" as True
-
-# Bugs
-Please reach out to us at nle@mpifr-bonn.mpg.de 
-
-# More information, please read
-
-1- Lee et al. (2020) https://ui.adsabs.harvard.edu/abs/2020ApJ...896...44L
-
-2- Tram et al. (2021) https://ui.adsabs.harvard.edu/abs/2021ApJ...906..115T
-
-3- Tram et al. (2024) https://arxiv.org/abs/2403.17088 (accepted to A&A)
-
-# Citations
+## Citations
 If you use this code for your scientific projects, please cite
 
 \bibitem[{{Lee} {et~al.}(2020){Lee}, {Hoang}, {Le}, \& {Cho}}]{2020ApJ...896...44L}
@@ -84,3 +86,7 @@ If you use this code for your scientific projects, please cite
 \bibitem[{{Tram} {et~al.}(2021{\natexlab{a}}){Tram}, {Hoang}, {Lee}, {Santos}, {Soam}, {Lesaffre}, {Gusdorf}, \& {Reach}}]{2021ApJ...906..115T}
 {Tram}, L.~N., {Hoang}, T., {Lee}, H., {et al.} 2021{\natexlab{a}}, \apj, 906,
   115, \dodoi{10.3847/1538-4357/abc6fe}
+  
+\bibitem[{{Tram} {et~al.}(2024){Tram}, {Hoang}, {Wiesemeyer}, {Ristorcelli}, {Menten}, {Ngoc}, \& {Diep}}]{2024A&A...689A.290T}
+{Tram}, L.~N., {Hoang}, T., {Wiesemeyer}, H., {et al.} 2024, \aa, 689, A290, \dodoi{10.1051/0004-6361/202450127}
+
