@@ -1,17 +1,17 @@
-!!!Template
+!!!! Template--modifications must be made for different targets
 !--------------------------------------------------------------------------------------------
 ! ENVIRONMENT SETTING
 !--------------------------------------------------------------------------------------------
 output_dir     output   !directory for the output files
-ratd           False    !'True': turn on RAT-D
+ratd           False    !True: turn on RAT-D
 !--------------------------------------------------------------------------------------------
 ! ISOLATED CLOUD
 !--------------------------------------------------------------------------------------------
 p              2        !power-index for profiling gas volume density (n~r^-p)
 rin            1700.    !if cloud='starless'
                         !   * rin  [au]: inner radius
-rout           50000.   !   * rout [au]: outer radius #624e6 (test Pipe-109)
-rflat          7500.    !   * Rflat[au]: flat radius (r<r0: n=n0=const.) #17000 (test Pipe-109)
+rout           1.248e5  !   * rout [au]: outer radius #624e6 (test Pipe-109)
+rflat          9000.    !   * Rflat[au]: flat radius (r<r0: n=n0=const.) #17000 (test Pipe-109)
                         !                             r>r0: n~r^{-2}
 nsample        70       !   * Nsample  : number of points sampling from rin -> rout                        
 !--------------------------------------------------------------------------------------------
@@ -29,7 +29,7 @@ d              0        ![kpc]:pass d=5kpc if cloud=='Mathis83' <-- to compute u
 !--------------------------------------------------------------------------------------------
 ! GAS SETTING
 !--------------------------------------------------------------------------------------------
-n_gas          8.0e4    ![cm-3]:gas volume density #1e7 (test pipe-109)
+n_gas          1.4e5    ![cm-3]:gas volume density #1e7 (test pipe-109)
 T_gas          16.4     ![K]: gas temperature
 Av             0        !Only effective when cloud=='Mathis83'
 !--------------------------------------------------------------------------------------------
@@ -37,7 +37,7 @@ Av             0        !Only effective when cloud=='Mathis83'
 !--------------------------------------------------------------------------------------------
 aligned_dust   astro    ![grain type] 'sil' or 'car' or 'sil+car' or 'astro'
 amin           3.1e-4   ![um]: mininum grain size
-amax           1.0      ![um]: maximum grain size
+amax           0.25     ![um]: maximum grain size
 Tdust          0        ![K]: dust temperature
                         !     * 0       : when U!=0 (U-->Tdust)
                         !     * numerics: when U=0(Tdus-->U)
@@ -74,8 +74,8 @@ fscale_car      1.0     !     * fscale_car: relative carbon's abundance
 !--------------------------------------------------------------------------------------------
 ! NUMERIC SETING
 !--------------------------------------------------------------------------------------------
-parallel       True     !'False' or 'True': paralle run (not included in this version)
-n_jobs         6        !processor's number if parallel
+parallel       True    !'False' or 'True': paralle run (not included in this version)
+cpu            6        !processor's number if parallel
                         !  *-1: all processors
                         !  * 1: one prosessor
 overwrite      Yes      !if yes: outputs will be overwritten
