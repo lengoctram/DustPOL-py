@@ -8,30 +8,26 @@ ratd           False    !True: turn on RAT-D
 ! ISOLATED CLOUD
 !--------------------------------------------------------------------------------------------
 p              2        !power-index for profiling gas volume density (n~r^-p)
-rin            1700.    !if cloud='starless'
-                        !   * rin  [au]: inner radius
-rout           1.248e5  !   * rout [au]: outer radius #624e6 (test Pipe-109)
-rflat          9000.    !   * Rflat[au]: flat radius (r<r0: n=n0=const.) #17000 (test Pipe-109)
-                        !                             r>r0: n~r^{-p}
-nsample        70       !   * Nsample  : number of points sampling from rin -> rout                        
+rin            1700.    ![au]: inner radius
+rout           1.248e5  ![au]: outer radius #624e6 (test Pipe-109)
+rflat          9000.    ![au]: flat radius (r<r0: n=n0=const.) #17000 (test Pipe-109)
+                        !                   r>r0: n~r^{-p}
+nsample        70       !number of points sampling from rin -> rout                        
 !--------------------------------------------------------------------------------------------
 ! RADIATION SETTING
 !--------------------------------------------------------------------------------------------
 U              3.0      !U=u_rad/u_ISRF: numerics or 'Tdust'
-                        ! if cloud=='Mathis83', code will estimate it using Mathis83 database
-                        ! if cloud=='MC', give the number: int,float or array
-                        !    --> if U=='Tdust': U from thermal-equilib.
-                        ! if cloud=='starless': U==rad. at the cloud surface
+                        !  * if U=='Tdust': U from thermal-equilib.
+                        !  * for isolated cloud: U==rad. at the cloud surface
 gamma          0.3      !anisotropic degree
 mean_lam       1.3      ![um]: mean wavelength of the radiation field
-d              0        ![kpc]:pass d=5kpc if cloud=='Mathis83' <-- to compute u_ISRF
-                        !      pass d=0kpc if cloud=='MC' <-- u_ISRF=8.64e-13 erg cm-3
+d              0        ![disable for the moment]
 !--------------------------------------------------------------------------------------------
 ! GAS SETTING
 !--------------------------------------------------------------------------------------------
-n_gas          1.4e5    ![cm-3]:gas volume density #1e7 (test pipe-109)
+n_gas          1.4e5    ![cm-3]:gas volume density
 T_gas          16.4     ![K]: gas temperature
-Av             0        !Only effective when cloud=='Mathis83'
+Av             0        ![disable for the moment]
 !--------------------------------------------------------------------------------------------
 ! DUST SETTING
 !--------------------------------------------------------------------------------------------
@@ -67,7 +63,7 @@ fp              0.1     !     * fp: Iron fraction of PM grains
 ! DUST LAYERS
 !--------------------------------------------------------------------------------------------
 model_layer     1       ! number of dust layer along the LOS [1,2]
-fheat           4       ! if model_layer==2: 
+fheat           4       ! if model_layer==2: ([disable for the moment -- if needed, use version_1.5])
                         !     * fheat : Tdust/Tdust2 or reverse
 fscale          1e3     !     * fscale: relative contribution between 2 layers
 fscale_car      1.0     !     * fscale_car: relative carbon's abundance
