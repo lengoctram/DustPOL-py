@@ -8,6 +8,7 @@ based on Radiative Torque alignment (RAT-A), Magnetically enhanced RAT (MRAT) an
 
 2- The routine will save the output files (wavelength and degree of polarization) for further analysis. A built-in routine for analysis is also provided.
 
+3- For the manuals and examples, please have a look at: <https://lengoctram.github.io/DustPOL-website/>
 3- For a quick look and investigation, please use a web-interface GUI: <https://dustpol-py.streamlit.app>
 
 4- The high-performance-computation techniques are embedded.
