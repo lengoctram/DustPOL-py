@@ -18,7 +18,8 @@ based on Radiative Torque alignment (RAT-A), Magnetically enhanced RAT (MRAT) an
 
 2- Go to the directory
 
-3- From the terminal, type 
+3- From the terminal, type
+ 
       pip install -e .
 
 ## Authors
