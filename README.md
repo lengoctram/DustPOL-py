@@ -22,6 +22,8 @@ based on Radiative Torque alignment (RAT-A), Magnetically enhanced RAT (MRAT) an
  
       pip install -e .
 
+** It is recommended to use a virtual environment to prevent conflicts with existing Python packages. **
+
 ## Authors
 ```Le Ngoc Tram```, Hyeseung Lee, and Thiem Hoang
 
