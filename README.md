@@ -3,14 +3,23 @@ title: "DustPOL-py: a numerical modeling for linear dust polarization"
 ---
 
 ## DustPOL-py - numerical modelling - v1.6
--- This numerical modelling calculates the multi-wavelength polarization degree of absorption and thermal dust emission 
+1- This numerical modelling calculates the multi-wavelength polarization degree of absorption and thermal dust emission 
 based on Radiative Torque alignment (RAT-A), Magnetically enhanced RAT (MRAT) and Radiative Torque Disruption (RAT-D).
 
--- The routine will save the output files (wavelength and degree of polarization) for further analysis. A built-in routine for analysis is also provided.
+2- The routine will save the output files (wavelength and degree of polarization) for further analysis. A built-in routine for analysis is also provided.
 
--- For a quick look and investigation, please use a web-interface GUI: <https://dustpol-py.streamlit.app>
+3- For a quick look and investigation, please use a web-interface GUI: <https://dustpol-py.streamlit.app>
 
--- The high-performance-computation techniques are embedded.
+4- The high-performance-computation techniques are embedded.
+
+## Installation
+
+1- Download the source files from here
+
+2- Go to the directory
+
+3- From the terminal, type 
+      pip install -e .
 
 ## Authors
 ```Le Ngoc Tram```, Hyeseung Lee, and Thiem Hoang
@@ -19,20 +28,20 @@ based on Radiative Torque alignment (RAT-A), Magnetically enhanced RAT (MRAT) an
 Pham N. Diep, Nguyen B. Ngoc, Bao Truong, Ngan Lê
 
 ## Features
--- Current version is designed to predict the polarization spectrum for starlight and thermal
+1- Current version is designed to predict the polarization spectrum for starlight and thermal
 
--- diffuse ISM 
+2- diffuse ISM 
 
--- molecular clouds and star-forming regions
+3- molecular clouds and star-forming regions
 
--- isolated dense cores (starless cores)
+4- isolated dense cores (starless cores)
 
 ## Upnext
--- Globules/Pillars
+1- Globules/Pillars
 
--- Protostars
+2- Protostars
 
--- Protoplanetary disks
+3- Protoplanetary disks
 
 ## History:
 2024   : Tram added the modulation for starless core and embedded high-performance-computation techniques
