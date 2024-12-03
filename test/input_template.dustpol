@@ -12,7 +12,7 @@ rin            1700.    !if cloud='starless'
                         !   * rin  [au]: inner radius
 rout           1.248e5  !   * rout [au]: outer radius #624e6 (test Pipe-109)
 rflat          9000.    !   * Rflat[au]: flat radius (r<r0: n=n0=const.) #17000 (test Pipe-109)
-                        !                             r>r0: n~r^{-2}
+                        !                             r>r0: n~r^{-p}
 nsample        70       !   * Nsample  : number of points sampling from rin -> rout                        
 !--------------------------------------------------------------------------------------------
 ! RADIATION SETTING
