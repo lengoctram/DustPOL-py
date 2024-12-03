@@ -74,7 +74,7 @@ fscale_car      1.0     !     * fscale_car: relative carbon's abundance
 !--------------------------------------------------------------------------------------------
 ! NUMERIC SETING
 !--------------------------------------------------------------------------------------------
-parallel       True    !'False' or 'True': paralle run (not included in this version)
+parallel       True     !'False' or 'True': paralle run (not included in this version)
 cpu            6        !processor's number if parallel
                         !  *-1: all processors
                         !  * 1: one prosessor
