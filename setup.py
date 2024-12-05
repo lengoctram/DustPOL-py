@@ -19,7 +19,7 @@ setup(
     ],
     python_requires=">=3.6",
     install_requires=[  # List your project's dependencies here
-        "numpy==1.20.3",
+        "numpy>=1.18.5",
         "matplotlib",
         "astropy",
         "scipy",
