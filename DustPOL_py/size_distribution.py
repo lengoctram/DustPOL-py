@@ -17,7 +17,7 @@ from scipy.special import erf
 #	dnda
 # ------------------------------------------------------
 
-mgas = 2*1.3*1.6605402e-24 #atomic mass unit #90%H + 10%He
+mgas = 1.3*1.6605402e-24 #atomic mass unit #90%H + 10%He
 def AMRN_dust_gas_ratio(a0, a1, rho_dust, ratio=0.01, beta=-3.5):
     f1= ratio*mgas#0.01*mgas
     #f2=8./3*pi*rho_dust*(pow(a1,0.5)-pow(a0,0.5))
