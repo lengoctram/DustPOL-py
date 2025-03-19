@@ -66,11 +66,43 @@ def dnda_astro(acm,sizedist='MRN',MRN_params=None):
         A4=7.96e-3
         A5=-1.68e-3    
 
-        dnda = BAd/acm * np.exp(-(np.log(acm/a0Ad))**2 /2/sigAd**2) + \
-               A0/acm*np.exp( A1*np.log(acm/1e-8) + A2*(np.log(acm/1e-8))**2 + A3*(np.log(acm/1e-8))**3 + A4*(np.log(acm/1e-8))**4 + A5*(np.log(acm/1e-8))**5)
-        return dnda
+        # aa0,aa1,rho_dust,ratio,beta=MRN_params
+        # #Normalization constant for a fixed 
+        # C = AMRN_dust_gas_ratio(aa0,aa1,rho_dust,ratio=ratio,beta=beta)
+        # dnda_MRN = C*pow(acm,beta) #* np.exp(-acm/a1)
 
-def dnda(INDEX,dusttype,aef,sizedist,power_index,dust_to_gas_ratio=0.01):
+        dnda_log = BAd/acm * np.exp(-(np.log(acm/a0Ad))**2 /2/sigAd**2) + \
+               A0/acm*np.exp( A1*np.log(acm/1e-8) + A2*(np.log(acm/1e-8))**2 + A3*(np.log(acm/1e-8))**3 + A4*(np.log(acm/1e-8))**4 + A5*(np.log(acm/1e-8))**5)
+        # dnda = dnda_MRN + dnda_log
+        return dnda_log
+
+# def dnda_pah(a, sigma, fC = 0.05, C_H = 4e-4):
+#     # AMRN= 6.9e-26
+#     # dna = AMRN*a**(-3.5) # power law term
+#     rho_PAH = 2.2
+#     mC = 12.01*1.6605402e-24
+#     a0 = np.array([4.0,30])*1e-8
+    
+#     dnda_log= np.exp(-0.5*(np.log(a/a0)/sigma)**2)/a
+#     dnda_MRN= AMRN*a**(-3.5)
+    
+#     NC_log  = scp.integrate.simps(dnda_log*rho_PAH*(4*np.pi*a**3./3.), a)/mC #total C atoms in log-mod per H
+    
+#     NC      = fC*C_H # fC = fraction of C abundance in log-normal distribution
+#     B       = (NC)/NC_log
+    
+#     #using Eq 9 in Hensley & Draine (2017)
+    
+#     xC  = 3.*sigma/pow(2.,0.5)+ np.log(a0/np.min(a))/(sigma*np.sqrt(2))
+#     supl   = mC*(C_H*fC)/(1+ erf(xC))
+#     B_HD17 = 3./pow(2*np.pi,1.5)*exp(-4.5*sigma**2)/(a0**3*rho_PAH*sigma)*supl
+    
+#     #print 'B=', B, B_HD17
+#     dn_da = dnda_log*B_HD17 #+ dnda_MRN
+    
+#     return dn_da
+
+def dnda(INDEX,dusttype,aef,sizedist,power_index,dust_to_gas_ratio=0.01,path='.'):
     # if (sizedist==GSD_law):
     #     if(sizedist == 'MRN'):
     #         #log.info('   *** [re-check] MRN with the power of %f [\033[1;7;34m ok \033[0m]'%(power_index))
@@ -112,7 +144,7 @@ def dnda(INDEX,dusttype,aef,sizedist,power_index,dust_to_gas_ratio=0.01):
 
         else:
             #log.info('We are using %s grain-size distribution'%(sizedist))
-            data = readD('./data/values.dat',2,10)
+            data = readD(f'{path}/data/values.dat',2,10)
             if (dusttype == 'carbon'):
                 ALPHA = data[0,INDEX]
                 BETA  = data[1,INDEX]
@@ -129,7 +161,7 @@ def dnda(INDEX,dusttype,aef,sizedist,power_index,dust_to_gas_ratio=0.01):
                 C_j   = data[8,INDEX]
                 C_MRN = 10**(-25.11)
                 rhoo  = 3.0
-            #BC5       = data[9,INDEX]
+            BC5       = data[9,INDEX]
             #if(sizedist == 'DL07'):
             #    BC5   = 0.92*BC5
             B1        = 2.0496E-7
@@ -157,7 +189,7 @@ def dnda(INDEX,dusttype,aef,sizedist,power_index,dust_to_gas_ratio=0.01):
                     a02 = 3.E-7
                     SIG1= 0.4
                     SIG2= 0.4
-                    BC5 = data[9,INDEX]
+                    # BC5 = data[9,INDEX]
                     dndaVSG=(B1/a)*np.exp(-0.5*(np.log(a/a01)/SIG1)**2)+ (B2/a)*np.exp(-0.5*(np.log(a/a02)/SIG2)**2)
                     if (dndaVSG >=  0.0001*dnda):
                         dnda    = dnda_nonlog+BC5*dndaVSG
@@ -188,6 +220,7 @@ def dnda(INDEX,dusttype,aef,sizedist,power_index,dust_to_gas_ratio=0.01):
 
                     #if(dusttype == 'carbon'):
                     dnda = dnda_nonlog + ((n0_j/a)*np.exp(-supl)).sum()
+                    
         dnda_gr[i]  = dnda
 
     return dnda_gr    
