@@ -114,13 +114,15 @@ class pol_degree(object):
 
     @auto_refresh
     def _pol_degree_absorption_(self,parent):
-        if self.dust_type=='astro' or self.dust_type=='Astro':
+        if self.dust_type.lower()=='astro' or self.dust_type.lower()=='astro+pah':
+            #For the moment: PAH is not aligned and produced polarization
             dn_da_astro=parent.dn_da_astro
             Qpol_abs_astro=parent.Qpol_abs_astro
 
             dP_abs_a = dn_da_astro* Qpol_abs_astro* np.pi* self.a**2 * self.fa
             dP_abs   = integrate.simps(dP_abs_a, self.a) * self.ngas*100#* exp(-tau)
-            return self.w,dP_abs,np.zeros(len(self.w))            
+            return self.w,dP_abs,np.zeros(len(self.w))
+
         else:
             dn_da_sil=parent.dn_da_sil
             dn_da_gra=parent.dn_da_gra
@@ -139,7 +141,8 @@ class pol_degree(object):
 
     @auto_refresh
     def _pol_degree_emission_(self,parent,tau=0.0):
-        if self.dust_type=='astro' or self.dust_type=='Astro':
+        if self.dust_type.lower()=='astro' or self.dust_type.lower()=='astro+pah':
+            #For the moment: PAH is not aligned and produced polarization
 
             ## get globals argument to pass into functions fIem, fIpol
             self.dn_da_astro=parent.dn_da_astro 

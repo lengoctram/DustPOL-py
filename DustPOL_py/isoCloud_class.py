@@ -109,18 +109,39 @@ class isoCloud_profile(object):
         a=parent.a
         dust_type=parent.dust_type
 
-        if dust_type=='astro' or dust_type=='Astro':
+        if dust_type.lower()=='astro':
             # log.info('max(a)=%.3e'%(a.max()*1e4))
-            Qext_astro=parent.Qext_astro
-            dn_da_astro=parent.dn_da_astro
+            Qext_astro = parent.Qext_astro
+            dn_da_astro= parent.dn_da_astro
 
             fQext_astro   = interp1d(w,Qext_astro,axis=0)
             Qext_astro_V  = fQext_astro(0.55e-4)
 
             #optical depth of astrodust
-            fastro_ext= Qext_astro_V * np.pi *a*a * dn_da_astro
+            fastro_ext = Qext_astro_V * np.pi *a*a * dn_da_astro
             dtau_astro = integrate.simps(fastro_ext, a) * n
             tau = integrate.simps(dtau_astro, s)
+            return 1.086*tau
+
+        elif dust_type.lower()=='astro+pah':
+            Qext_astro = parent.Qext_astro
+            Qext_pah   = parent.Qext_pah
+            dn_da_astro= parent.dn_da_astro
+            dn_da_pah  = parent.dn_da_pah
+
+            fQext_astro = interp1d(w,Qext_astro,axis=0)
+            fQext_pah   = interp1d(w,Qext_pah,axis=0)
+            Qext_astro_V= fQext_astro(0.55e-4)
+            Qext_pah_V  = fQext_pah(0.55e-4)
+
+            fastro_ext  = Qext_astro_V * np.pi *a*a * dn_da_astro
+            dtau_astro  = integrate.simps(fastro_ext, a) * n
+
+            fpah_ext    = Qext_pah_V * np.pi *a*a * dn_da_pah
+            dtau_pah    = integrate.simps(fpah_ext, a) * n
+
+            dtau = dtau_astro + dtau_pah
+            tau  = integrate.simps(dtau, s)
             return 1.086*tau
 
         else:
@@ -164,13 +185,27 @@ class isoCloud_profile(object):
     def get_dtau(self,parent,n):
         dust_type=parent.dust_type
         a=parent.a
-        if dust_type=='astro' or dust_type=='Astro':
+        if dust_type.lower()=='astro':
             Qext_astro=parent.Qext_astro
             dn_da_astro=parent.dn_da_astro
 
             fastro_ext= Qext_astro * np.pi *a*a * dn_da_astro * n
             dtau_astro = integrate.simps(fastro_ext, a)
             return dtau_astro
+
+        elif dust_type.lower()=='astro+pah':
+            Qext_astro=parent.Qext_astro
+            dn_da_astro=parent.dn_da_astro
+
+            Qext_pah=parent.Qext_pah
+            dn_da_pah=parent.dn_da_pah
+
+            fastro_ext= Qext_astro * np.pi *a*a * dn_da_astro * n
+            dtau_astro = integrate.simps(fastro_ext, a)
+
+            fpah_ext= Qext_pah * np.pi *a*a * dn_da_pah * n
+            dtau_pah = integrate.simps(fpah_ext, a)
+            return dtau_astro + dtau_pah
 
         else:
             Qext_sil=parent.Qext_sil
