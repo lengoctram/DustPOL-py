@@ -49,7 +49,11 @@ Pham N. Diep, Nguyen B. Ngoc, Bao Truong, Ngan Lê
 3- Protoplanetary disks
 
 ## History:
-2025   : Tram modified the main routines for overriding the input parameters (useful for performing fitting), optimised the model with cached memories, added the PAHs composition
+2025   : Tram modified the main routines for overriding the input parameters (useful for performing fitting)
+
+2025   : Tram optimised the model with cached memories 
+
+2025   : Tram added the PAHs composition
 
 2024   : Tram added the modulation for starless core and embedded high-performance-computation techniques
 
