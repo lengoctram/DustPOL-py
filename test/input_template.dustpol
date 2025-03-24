@@ -37,7 +37,7 @@ amax           0.3     ![um]: maximum grain size
 Tdust          0        ![K]: dust temperature
                         !     * 0       : when U!=0 (U-->Tdust)
                         !     * numerics: when U=0(Tdus-->U)
-rho            3        ![g*cm^-3]:dust volume density
+rho            3        ![g*cm^-3]:dust mass volume density
 alpha          1.4      !grain axes-ratio #prolate 0.3333
 Smax           1e7      ![erg cm-3]: tensile strength of grains
                         !            *effective only when ratd='on'
