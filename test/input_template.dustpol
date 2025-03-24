@@ -3,7 +3,7 @@
 ! ENVIRONMENT SETTING
 !--------------------------------------------------------------------------------------------
 output_dir     output   !directory for the output files
-ratd           False    !True: turn on RAT-D
+ratd           True    !True: turn on RAT-D
 !--------------------------------------------------------------------------------------------
 ! ISOLATED CLOUD
 !--------------------------------------------------------------------------------------------
@@ -16,7 +16,7 @@ nsample        70       !number of points sampling from rin -> rout
 !--------------------------------------------------------------------------------------------
 ! RADIATION SETTING
 !--------------------------------------------------------------------------------------------
-U              3.0      !U=u_rad/u_ISRF: numerics or 'Tdust'
+U              0.8      !U=u_rad/u_ISRF: numerics or 'Tdust'
                         !  * if U=='Tdust': U from thermal-equilib.
                         !  * for isolated cloud: U==rad. at the cloud surface
 gamma          0.3      !anisotropic degree
@@ -25,15 +25,15 @@ d              0        ![disable for the moment]
 !--------------------------------------------------------------------------------------------
 ! GAS SETTING
 !--------------------------------------------------------------------------------------------
-n_gas          3e5    ![cm-3]:gas volume density (ngas = n(H) + 2n(H2) + ...)
+n_gas          1e3    ![cm-3]:gas volume density (ngas = n(H) + 2n(H2) + ...)
 T_gas          16.4     ![K]: gas temperature
 Av             0        ![disable for the moment]
 !--------------------------------------------------------------------------------------------
 ! DUST SETTING
 !--------------------------------------------------------------------------------------------
-aligned_dust   astro    ![grain type] 'sil' or 'car' or 'sil+car' or 'astro'
+aligned_dust   astro+pah    ![grain type] 'sil' or 'car' or 'sil+car' or 'astro'
 amin           3.1e-4   ![um]: mininum grain size
-amax           0.25     ![um]: maximum grain size
+amax           0.3     ![um]: maximum grain size
 Tdust          0        ![K]: dust temperature
                         !     * 0       : when U!=0 (U-->Tdust)
                         !     * numerics: when U=0(Tdus-->U)
@@ -51,6 +51,7 @@ power_index    -3.5     !power-index of GSD if 'MRN'
 ! ALIGNMENT THEORY
 !--------------------------------------------------------------------------------------------
 RATalign        RAT     ! RAT or MRAT theory
+fmin            1e-3    ! minimum of grain alignment efficiency
 fmax            1.0     ! 1=100%: maximum of grain alignment efficiency
 Bfield          600.0   ! strength of B-field (only active for MRAT)
 B_angle         90.0    ! [deg] inclination angle of B-field wrt. LOS

@@ -191,6 +191,8 @@ def plot_pl_single_files(filenames,ax,**plot_kwargs):
 		params=read_headers(filename)
 		if params['dust_type'] == 'astro':
 			dust_type='astrodust'
+		elif params['dust_type']=='astro+pah':
+			dust_type='astrodust+PAHs'
 		elif params['dust_type']=='sil':
 			dust_type='silicate'
 		elif params['dust_type']=='sil+car':
@@ -213,7 +215,7 @@ def plot_pl_single_files(filenames,ax,**plot_kwargs):
 		##wavelength
 		#w=data['w'].data
 		w=data_[:,0]
-		if dust_type in ['astrodust','silicate']:
+		if dust_type in ['astrodust','astrodust+PAHs','silicate']:
 			p=data_[:,1]
 		else:
 			p=data_[:,2]
@@ -287,6 +289,8 @@ def plot_pl(filenames,av_range=None,ax=None,**plot_kwargs):
 	params=read_headers(filenames)
 	if params['dust_type'] == 'astro':
 		dust_type='astrodust'
+	elif params['dust_type']=='astro+pah':
+		dust_type='astrodust+PAHs'
 	elif params['dust_type']=='sil':
 		dust_type='silicate'
 	elif params['dust_type']=='sil+car':
@@ -397,6 +401,8 @@ def plot_pav(filenames,wavelength=850,ax=None,show_break=False,get_info=False,**
 		amax=params["amax"]
 		if params['dust_type'] == 'astro':
 			dust_type='astrodust'
+		elif params['dust_type']=='astro+pah':
+			dust_type='astrodust+PAHs'
 		elif params['dust_type']=='sil':
 			dust_type='silicate'
 		elif params['dust_type']=='sil+car':
@@ -521,6 +527,8 @@ def plot_pI(filenames,wavelength,ax=None,show_break=False,get_info=False,**plot_
 		amax=params["amax"]
 		if params['dust_type'] == 'astro':
 			dust_type='astrodust'
+		elif params['dust_type']=='astro+pah':
+			dust_type='astrodust+PAHs'
 		elif params['dust_type']=='sil':
 			dust_type='silicate'
 		elif params['dust_type']=='sil+car':
@@ -626,6 +634,8 @@ def plot_lamav(filenames,ax=None,**plot_kwargs):
 		params=read_headers(filename)
 		if params['dust_type'] == 'astro':
 			dust_type='astrodust'
+		elif params['dust_type']=='astro+pah':
+			dust_type='astrodust+PAHs'
 		elif params['dust_type']=='sil':
 			dust_type='silicate'
 		elif params['dust_type']=='sil+car':

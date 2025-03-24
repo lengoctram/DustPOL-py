@@ -2,7 +2,7 @@
 title: "DustPOL-py: a numerical modeling for linear dust polarization"
 ---
 
-## DustPOL-py - numerical modelling - v1.6
+## DustPOL-py - numerical modelling - v1.6.1
 1- This numerical modelling calculates the multi-wavelength polarization degree of absorption and thermal dust emission 
 based on Radiative Torque alignment (RAT-A), Magnetically enhanced RAT (MRAT) and Radiative Torque Disruption (RAT-D).
 
@@ -49,6 +49,8 @@ Pham N. Diep, Nguyen B. Ngoc, Bao Truong, Ngan Lê
 3- Protoplanetary disks
 
 ## History:
+2025   : Tram modified the main routines for overriding the input parameters (useful for performing fitting), optimised the model with cached memories, added the PAHs composition
+
 2024   : Tram added the modulation for starless core and embedded high-performance-computation techniques
 
 2024   : Tram re-structured the DustPOL-py infractructure to python class object (modulation)

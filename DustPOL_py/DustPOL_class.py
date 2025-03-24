@@ -62,70 +62,122 @@ class DustPOL:
         - Starless core with the line of sight Av varried for different amax
                 starless(Av_fixed_amax=False)
     """
+    _file_cache = {}  # Class-level cache to store already read files
 
     @auto_refresh
-    def __init__(self,input_params_file):
+    def __init__(self,input_params_file,**kwargs):
+        """Initialize global input parameters from the input file, 
+           with optional overrides from kwargs.
+        """
         self.input_params_file = input_params_file
         params = DustPOL_io.input(self.input_params_file)
-        # from DustPOL_io import (
-        #     U, u_ISRF, mean_lam, gamma, Tgas, Tdust, ngas,
-        #     ratd, Smax, amin, amax, power_index, rho, dust_type, 
-        #     dust_to_gas_ratio, GSD_law, RATalign, f_max,alpha,
-        #     B_angle, Bfield, Ncl, phi_sp, fp, rflat, rout,nsample,
-        #     path, pc
-        # )
-        self.output_dir=params.output_dir
-        self.U = params.U             #No-unit
-        self.u_ISRF=params.u_ISRF     #erg cm-3
-        self.gamma=params.gamma       #No-unit
-        self.mean_lam=params.mean_lam #cm
-        self.Tgas=params.Tgas         #K
-        self.Tdust=params.Tdust       #K
-        self.ngas=params.ngas         #cm-3
-        self.ratd=params.ratd         #[option]
-        self.Smax=params.Smax         #erg cm-3
-        self.amin=params.amin         #cm
-        self.amax=params.amax         #cm
-        self.power_index      =params.power_index       #No-unit
-        self.dust_type        =params.dust_type         #[option]
-        self.dust_to_gas_ratio=params.dust_to_gas_ratio #No-unit
-        self.GSD_law          =params.GSD_law           #[option]
-        self.RATalign         =params.RATalign          #[option]
-        self.Bfield = params.Bfield                     #[MRAT] -- otherwise, nan
-        self.Ncl    = params.Ncl                        #[MRAT] -- otherwise, nan
-        self.phi_sp = params.phi_sp                     #[MRAT] -- otherwise, nan
-        self.fp     = params.fp                         #[MRAT] -- otherwise, nan
-        self.f_min  = 0.0             #%
-        self.f_max  = params.f_max    #%
-        self.alpha  = params.alpha    #No-unit
-        self.B_angle= params.B_angle  #radiant
-        self.rho    = params.rho      #g cm-3
-        self.parallel   =params.parallel       #[option] parallelization calculation
+
+        # Directly assign values from params
+        self.output_dir       = params.output_dir
+        self.ratd             = params.ratd              #[option]
+        self.dust_type        = params.dust_type         #[option]
+        self.dust_to_gas_ratio= params.dust_to_gas_ratio #No-unit
+        self.GSD_law          = params.GSD_law           #[option]
+        self.RATalign         = params.RATalign          #[option]
+        self.alpha            = params.alpha             #No-unit
+        self.rho              = params.rho               #g cm-3
+
+        # Assign atributes with kwargs override provided
+        self.U           = kwargs.get("U", params.U)                     # No-unit
+        self.gamma       = kwargs.get("gamma", params.gamma)             # No-unit
+        self.mean_lam    = kwargs.get("mean_lam", params.mean_lam)       # cm
+        self.Tgas        = kwargs.get("Tgas", params.Tgas)               # K
+        self.Tdust       = kwargs.get("Tdust", params.Tdust)             # K
+        self.ngas        = kwargs.get("ngas", params.ngas)               # cm-3
+        self.Smax        = kwargs.get("Smax", params.Smax)               # erg cm-3
+        self.amin        = kwargs.get("amin", params.amin)               # cm
+        self.amax        = kwargs.get("amax", params.amax)               # cm
+        self.power_index = kwargs.get("power_index", params.power_index) #No-unit
+        
+        # MRAT parameters
+        self.Bfield = kwargs.get("Bfield",params.Bfield)    #[MRAT] -- otherwise, nan
+        self.Ncl    = kwargs.get("Ncl",params.Ncl)          #[MRAT] -- otherwise, nan
+        self.phi_sp = kwargs.get("phi_sp", params.phi_sp)
+        self.fp     = kwargs.get("fp", params.fp)
+        
+        # Alignment efficiencies
+        self.f_min  = kwargs.get("f_min",  params.f_min)    #%
+        self.f_max  = kwargs.get("f_max",  params.f_max)    #%
+        self.B_angle= kwargs.get("B_angle",params.B_angle)  #radiant
+
+        # HPC setup
+        self.parallel = params.parallel       #[option] parallelization calculation
         if (self.parallel):
-            self.max_workers=params.max_workers    #[if parallel]: numbers of CPU cores
-        self.verbose=False
+            self.max_workers = params.max_workers    #[if parallel]: numbers of CPU cores
+        self.verbose = False
         self.Urange_tempdist=[]
 
-        ##parameters for isolated cloud
-        self.p     = params.p
-        self.rflat = params.rflat #cm #17000.*constants.au.cgs.value
-        self.rout  = params.rout  #cm #624.e6*constants.au.cgs.value
-        self.nsample= params.nsample #int 5#50
+        # Parameters for isolated cloud
+        self.p      = params.p
+        self.rflat  = params.rflat   #cm 
+        self.rout   = params.rout    #cm 
+        self.nsample= params.nsample #int
 
         # # ------- get constants -------
-        self.pc = constants.pc
+        self.pc    = constants.pc    #cm
+        self.u_ISRF= params.u_ISRF   #erg cm-3
 
         # # ------- get path to directory -------
         self.path=params.path
 
+        # ------- Save the kwargs to an instance attribute ------------
+        self.kwargs = kwargs
+        
+        # # Access the keys of the kwargs
+        # self.kwargs_keys = list(kwargs.keys())
+        # self.__initial_state = self.__dict__.copy()  
+
+
         # ------- Initialization wavelength, grain size, and cross-sections from the file -------
-        if self.dust_type=='astro' or self.dust_type=='Astro':
+        if self.dust_type.lower()=='astro':
             hdr_lines=4
             skip_lines=4
             len_a=169
             len_w=1129
             num_cols=8
-            self.Data_aAstro=rad_func.readDC(self.path+'data/astrodust/Q_aAstro_%.3f'%(self.alpha)+'_P0.2_Fe0.00.DAT',hdr_lines,skip_lines,len_a,len_w,num_cols)
+
+            data_file_key=f"Q_aAstro_{self.alpha:.3f}"
+            if data_file_key in DustPOL._file_cache:
+                self.Data_aAstro=DustPOL._file_cache[data_file_key]
+            else:
+                file_path=f"{self.path}data/astrodust/Q_aAstro_{self.alpha:.3f}_P0.2_Fe0.00.DAT"
+                self.Data_aAstro=rad_func.readDC(file_path,hdr_lines,skip_lines,len_a,len_w,num_cols)
+                DustPOL._file_cache[data_file_key]=self.Data_aAstro # Cache result
+        elif self.dust_type.lower()=='astro+pah':
+            ##Astrodust composition
+            hdr_lines=4
+            skip_lines=4
+            len_a=169
+            len_w=1129
+            num_cols=8
+
+            data_astro_file_key=f"Q_aAstro_{self.alpha:.3f}"
+            if data_astro_file_key in DustPOL._file_cache:
+                self.Data_aAstro=DustPOL._file_cache[data_astro_file_key]
+            else:
+                file_path_astro=f"{self.path}data/astrodust/Q_aAstro_{self.alpha:.3f}_P0.2_Fe0.00.DAT"
+                self.Data_aAstro=rad_func.readDC(file_path_astro,hdr_lines,skip_lines,len_a,len_w,num_cols)
+                DustPOL._file_cache[data_astro_file_key]=self.Data_aAstro # Cache result
+
+            ##PAHs dust composition
+            hdr_lines=4
+            skip_lines=4
+            len_a=167
+            len_w=1000
+            num_cols=4
+
+            data_pah_file_key=f"Q_aPAH_neutral_Hensley"
+            if data_pah_file_key in DustPOL._file_cache:
+                self.Data_pah=DustPOL._file_cache[data_pah_file_key]
+            else:
+                file_path_pah=f"{self.path}data/PAHs/Q_aPAH_neutral_Hensley.DAT"
+                self.Data_pah=rad_func.readDC(file_path_pah,hdr_lines,skip_lines,len_a,len_w,num_cols)
+                DustPOL._file_cache[data_pah_file_key]=self.Data_pah # Cache result
 
         else:
             #BELOW DOESN'T WORK FOR OBLATE SHAPE WITH S=2
@@ -145,12 +197,33 @@ class DustPOL:
                 num_cols=8
             else:
                 log.error('Values of alpha is not regconized! [\033[1;5;7;91m failed \033[0m]')
-            self.Data_sil = rad_func.readDC(self.path+'data/Q_aSil2001_'+str(self.alpha)+'_p20B.DAT',hdr_lines,skip_lines,len_a_sil,len_w,num_cols)
-            self.Data_mCBE = rad_func.readDC(self.path+'data/Q_amCBE_'+str(self.alpha)+'.DAT',hdr_lines,skip_lines,len_a_car,len_w,num_cols)
+
+            data_sil_file_key=f"Q_aSil2001_{self.alpha}"
+            if data_sil_file_key in DustPOL._file_cache:
+                self.Data_sil=DustPOL._file_cache[data_sil_file_key]
+            else:
+                file_sil_path = f"{self.path}data/Q_aSil2001_{self.alpha}_p20B.DAT"
+                self.Data_sil = rad_func.readDC(file_sil_path,hdr_lines,skip_lines,len_a_sil,len_w,num_cols)
+                DustPOL._file_cache[data_sil_file_key]=self.Data_sil
+
+            data_car_file_key=f"Q_amCBE_{self.alpha}"
+            if data_car_file_key in DustPOL._file_cache:
+                self.Data_mCBE = DustPOL._file_cache[data_car_file_key]
+            else:
+                file_car_path = f"{self.path}data/Q_amCBE_{self.alpha}.DAT"
+                self.Data_mCBE = rad_func.readDC(file_car_path,hdr_lines,skip_lines,len_a_car,len_w,num_cols)
+                DustPOL._file_cache[data_car_file_key]=self.Data_mCBE
+                
         self.get_coefficients_files(verbose=self.verbose)
         
         # ------- Initialization grain-size distribution -------
-        self.grain_size_distribution()  
+        self.grain_size_distribution()
+
+    # @auto_refresh
+    # def get_initial_value(self):
+    #     for key in self.kwargs_keys:
+    #         print('key=',key)
+    #         setattr(self, key, self.__initial_state.get(key, None))
 
     @auto_refresh
     def update_radiation(self):
@@ -193,6 +266,15 @@ class DustPOL:
             self.update_grain_size(a,verbose=verbose)             ## update grain size --> self.a
             [self.Qext_astro, self.Qabs_astro, self.Qpol_astro, self.Qpol_abs_astro] = qq.Qext_grain_astrodust(self.Data_aAstro,self.w,self.a,self.alpha)
             return
+        
+        elif self.dust_type.lower()=='astro+pah':
+            self.w = self.Data_aAstro[1,:,0]*1e-4 ## wavelength in cm
+            a = self.Data_aAstro[0,0,:]*1e-4 ## grain size in cm
+            self.update_grain_size(a,verbose=verbose)             ## update grain size --> self.a
+            [self.Qext_astro, self.Qabs_astro, self.Qpol_astro, self.Qpol_abs_astro] = qq.Qext_grain_astrodust(self.Data_aAstro,self.w,self.a,self.alpha)
+            [self.Qext_pah, self.Qabs_pah, self.Qpol_pah, self.Qpol_abs_pah] = qq.Qext_grain_pah(self.Data_pah,self.w,self.a)
+            return
+
         else:
             self.w = rad_func.wave(self.path)     ##good for prolate shape
             a = rad_func.a_dust(self.path,10.0)[1] ##good for prolate shape
@@ -217,6 +299,16 @@ class DustPOL:
                 GSD_params = [self.a.min(),fix_amax_value,2.74,self.dust_to_gas_ratio,self.power_index]
             self.dn_da_astro = size_distribution.dnda_astro(self.a,sizedist=self.GSD_law,MRN_params=GSD_params)
             return
+
+        elif self.dust_type.lower()=='astro+pah':
+            if not fix_amax:
+                GSD_params = [self.a.min(),self.a.max(),2.74,self.dust_to_gas_ratio,self.power_index]
+            else:
+                GSD_params = [self.a.min(),fix_amax_value,2.74,self.dust_to_gas_ratio,self.power_index]
+            self.dn_da_astro = size_distribution.dnda_astro(self.a,sizedist=self.GSD_law,MRN_params=GSD_params)
+            self.dn_da_pah   = size_distribution.dnda(6,'carbon',self.a,'DL07',self.power_index,self.dust_to_gas_ratio,path=self.path)
+            return
+
         else:
             self.dn_da_gra = size_distribution.dnda(6,'carbon',self.a,self.GSD_law,self.power_index,self.dust_to_gas_ratio)
             self.dn_da_sil = size_distribution.dnda(6,'silicate',self.a,self.GSD_law,self.power_index,self.dust_to_gas_ratio)
@@ -237,6 +329,11 @@ class DustPOL:
         ##This function return the extinction curve, normalized by Ngas
         if self.dust_type.lower()=='astro':
             dtau = self.Qext_astro * np.pi*self.a**2 * self.dn_da_astro
+        elif self.dust_type.lower()=='astro+pah':
+            dtau_astro = self.Qext_astro * np.pi*self.a**2 * self.dn_da_astro
+            dtau_pah   = self.Qext_pah   * np.pi*self.a**2 * self.dn_da_pah
+            dtau = dtau_astro + dtau_pah
+
         elif self.dust_type.lower()=='sil':# in ['sil','silicate']:
             dtau = self.Qext_sil * np.pi*self.a**2 * self.dn_da_sil
         else:
@@ -278,7 +375,7 @@ class DustPOL:
             #Save the output
             data_save={}
             data_save['wavelength (micron)'] = w*1e4
-            if self.dust_type.lower()=='astro':
+            if self.dust_type.lower()=='astro' or self.dust_type.lower()=='astro+pah':
                 data_save['p/Ngas (%/cm-2)'] = dP_abs/self.ngas
             else:
                 data_save['p_sil/Ngas (%/cm-2)'] = dP_abs/self.ngas
@@ -306,7 +403,7 @@ class DustPOL:
         '''
         self.verbose=verbose #transfer verbose to parent var to pass to pol_degree and align classes
 
-        if self.dust_type.lower()=='astro':
+        if self.dust_type.lower()=='astro' or self.dust_type.lower()=='astro+pah':
             if Tdust is None:
                 Tdust = 16.4* self.U**(1./6) * (self.a/1.e-5)**(-1./15)#* np.ones(self.na)
                 if (self.verbose):
@@ -327,7 +424,7 @@ class DustPOL:
             #Save the output
             data_save={}
             data_save['wavelength (micron)'] = w*1e4
-            if self.dust_type.lower()=='astro':
+            if self.dust_type.lower()=='astro' or self.dust_type.lower()=='astro+pah':
                 data_save['Iem'] = I_list[0]
                 data_save['Ipol'] = I_list[1]
                 data_save['p (%)'] = P_list[0]
@@ -375,8 +472,11 @@ class DustPOL:
         self.get_coefficients_files(verbose=self.verbose) ##need to be here <-- grain size 
         self.grain_size_distribution(fix_amax=Av_fixed_amax,fix_amax_value=fixed_amax_value)##must be after get_coefficient_files
 
-        U_0=self.U          ##hard copy of the initial radiation field
-        ngas_0=self.ngas    ##hard copy of the initial gas volume density
+        U_0       =self.U          ##hard copy of the initial radiation field
+        ngas_0    =self.ngas       ##hard copy of the initial gas volume density
+        mean_lam_0=self.mean_lam   ##hard copy of the initial mean wavelength
+        gamma_0   =self.gamma      ##hard copy of the initial anisotropic degree
+        amax_0    =self.amax       ##hard copy of the initial maximum grain size
 
         #call the starless_profile
         isoCloud_exe = isoCloud_class.isoCloud_profile()#(self)
@@ -387,6 +487,9 @@ class DustPOL:
         Av_ = isoCloud_exe.Av_func(self,r0)
 
         if get_info:
+            print('-----------Get radiation------------------')
+            log.info('U=%.3f '%self.U)                
+
             print('-----------Get ngas------------------')
             log.info('ngas_0=%.3e (cm-3)'%self.ngas)                
 
@@ -458,7 +561,7 @@ class DustPOL:
 
                 #print('-----------Get mean_lam-----------')
                 #print('mean_lam_init=',self.mean_lam*1e4)
-                self.mean_lam=isoCloud_exe.lamda_starless(1.3e-4,Av_compute[j])
+                self.mean_lam=isoCloud_exe.lamda_starless(mean_lam_0,Av_compute[j])
 
                 # self.ngas=starless_exe.ngas_starless(ngas_0,self.rflat)(np.sqrt(z_[j]*z_[j]+r0*r0))                
                 self.ngas=isoCloud_exe.ngas_starless(ngas_0,self.rflat,self.p)(r_compute) 
@@ -525,7 +628,7 @@ class DustPOL:
             data_emi['Iext']=Iext_emi
 
             self.Av_array=Av_
-            self.__init__(self.input_params_file) ##reset the initial parameters
+            self.__init__(self.input_params_file,**self.kwargs) ##reset the initial parameters
             DustPOL_io.output(self,output_abs,data_abs)
             DustPOL_io.output(self,output_emi,data_emi)
 
@@ -573,7 +676,7 @@ class DustPOL:
                 print('---------------------------------------------------')
                 print('cell number=%d/%d'%(i,len(r0_range)), 'r0=%.3e (pc)'%(r0/self.pc))
 
-                self.__init__(self.input_params_file) ##reset the initial parameters
+                self.__init__(self.input_params_file,**self.kwargs) ##reset the initial parameters
             
                 w,NH_,Av_,Iext_,pabs,pemi=self.isoCloud_los(
                                         r0,
@@ -605,7 +708,7 @@ class DustPOL:
                 futures = []
                 for r0 in r0_range:
                     # Reset initial parameters
-                    self.__init__(self.input_params_file)
+                    self.__init__(self.input_params_file,**self.kwargs)
                     try:
                         future = executor.submit(
                             self.isoCloud_los,
@@ -653,7 +756,7 @@ class DustPOL:
 
 
         self.Av_array=np.array(Av_array)
-        self.__init__(self.input_params_file) ##reset the initial parameters
+        self.__init__(self.input_params_file,**self.kwargs) ##reset the initial parameters
         #There is a draw back of this saveout method: 
         #  If the keys are the same (two exact value of Av)
         #  Save the last array!!!

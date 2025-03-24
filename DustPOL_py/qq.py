@@ -94,6 +94,23 @@ def Qext_grain_astrodust(data,w_new,a_new,alpha=0.3333):
     Qpol_abs= f_pol_abs(w_new, a_new)
     return [Qext, Qabs, Qpol, Qpol_abs]
 
+def Qext_grain_pah(data,w_new,a_new):
+    w = data[1,:,0]*1e-4 # wavelength in cm
+    a = data[0,0,:]*1e-4 # grain size in cm
+    #Qext = data[2,:,:]
+    Qabs  = data[2,:,:]
+    Qext  = data[3,:,:]
+
+
+    f_ext = interpolate.RectBivariateSpline(w,a, Qext, kx = 5, ky = 5 ) ##allowing extra-polation
+    f_abs = interpolate.RectBivariateSpline(w,a, Qabs, kx = 5, ky = 5 ) ##allowing extra-polation
+
+    Qext= f_ext(w_new, a_new)
+    Qabs= f_abs(w_new, a_new)
+    Qpol= np.full_like(w_new,np.nan)
+    Qpol_abs= np.full_like(w_new,np.nan)
+    return [Qext, Qabs, Qpol, Qpol_abs]
+
 # def Qext_grain_ready(data_file,w_new,a_new,extra=False,wmin=0.0,wmax=0.0):
 #     #The scattering, absorption and polarization efficiences/cross-sections are already calculated
 #     w_init,a_inti,Qabs_init,Qext_init,Qpol_init = loadtxt(data_file,skiprows=1,unpack=True)

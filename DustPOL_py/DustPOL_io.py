@@ -53,13 +53,14 @@ class input():
         self.GSD_law    = params[22]
         self.power_index= eval(params[23])
         self.RATalign = params[24].lower() # RAT or MRAT
-        self.f_max    = eval(params[25])
-        self.B_angle  = eval(params[27])*np.pi/180 # rad.
+        self.f_min    = eval(params[25])
+        self.f_max    = eval(params[26])
+        self.B_angle  = eval(params[28])*np.pi/180 # rad.
         if self.RATalign=='mrat':
-            self.Bfield = eval(params[26])
-            self.Ncl    = eval(params[28])
-            self.phi_sp = eval(params[29])
-            self.fp     = eval(params[30])
+            self.Bfield = eval(params[27])
+            self.Ncl    = eval(params[29])
+            self.phi_sp = eval(params[30])
+            self.fp     = eval(params[31])
         else:
             self.Bfield = np.nan
             self.Ncl    = np.nan
@@ -67,9 +68,9 @@ class input():
             self.fp     = np.nan
         # model_layer = eval(params[31])
 
-        self.parallel   = eval(params[35])
+        self.parallel   = eval(params[36])
         if (self.parallel):
-            self.cpu     = eval(params[36])
+            self.cpu     = eval(params[37])
             if (self.cpu==-1): 
                 self.max_workers=os.cpu_count()#None
             else:
