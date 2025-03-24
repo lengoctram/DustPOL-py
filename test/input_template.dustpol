@@ -61,10 +61,10 @@ Ncl             10.     ! if RATalign==MRAT
 phi_sp          0.1     !     * phi_sp: volume fitting factor of iron cluster (0.1=10%) 
 fp              0.1     !     * fp: Iron fraction of PM grains
 !--------------------------------------------------------------------------------------------
-! DUST LAYERS
+! DUST LAYERS (multi-dust layer is disabled in this version -- if needed, please use version_1.5]
 !--------------------------------------------------------------------------------------------
 model_layer     1       ! number of dust layer along the LOS [1,2]
-fheat           4       ! if model_layer==2: ([disable for the moment -- if needed, use version_1.5])
+fheat           4       ! if model_layer==2:
                         !     * fheat : Tdust/Tdust2 or reverse
 fscale          1e3     !     * fscale: relative contribution between 2 layers
 fscale_car      1.0     !     * fscale_car: relative carbon's abundance
