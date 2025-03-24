@@ -19,10 +19,10 @@ class radiation_retrieve():
 
         ##MAKE A TRICK
         if self.U < min(self.Urange_tempdist):
-            log.warning('*** Your value of U=%.3f < Umin=%.1f --> \033[1;5;33m set U == %.1f \033[0m'%(self.U,min(self.Urange_tempdist),min(self.Urange_tempdist)))
+            log.warning('*** Your value of U=%.3f < Umin=%.3f --> \033[1;5;33m set U == %.3f \033[0m'%(self.U,min(self.Urange_tempdist),min(self.Urange_tempdist)))
             self.U=min(self.Urange_tempdist)
         elif self.U> max(self.Urange_tempdist):
-            log.warning('*** Your value of U=%.3f > Umax=%.1f --> \033[1;5;33m set U == %.1f \033[0m'%(self.U,max(self.Urange_tempdist),max(self.Urange_tempdist)))
+            log.warning('*** Your value of U=%.3f > Umax=%.3f --> \033[1;5;33m set U == %.3f \033[0m'%(self.U,max(self.Urange_tempdist),max(self.Urange_tempdist)))
             self.U=max(self.Urange_tempdist)
         else:
             self.U=self.U

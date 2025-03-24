@@ -125,6 +125,14 @@ class DustPOL:
         # # ------- get path to directory -------
         self.path=params.path
 
+        # ------- Save the kwargs to an instance attribute ------------
+        self.kwargs = kwargs
+        
+        # # Access the keys of the kwargs
+        # self.kwargs_keys = list(kwargs.keys())
+        # self.__initial_state = self.__dict__.copy()  
+
+
         # ------- Initialization wavelength, grain size, and cross-sections from the file -------
         if self.dust_type.lower()=='astro':
             hdr_lines=4
@@ -209,7 +217,13 @@ class DustPOL:
         self.get_coefficients_files(verbose=self.verbose)
         
         # ------- Initialization grain-size distribution -------
-        self.grain_size_distribution()  
+        self.grain_size_distribution()
+
+    # @auto_refresh
+    # def get_initial_value(self):
+    #     for key in self.kwargs_keys:
+    #         print('key=',key)
+    #         setattr(self, key, self.__initial_state.get(key, None))
 
     @auto_refresh
     def update_radiation(self):
@@ -458,8 +472,11 @@ class DustPOL:
         self.get_coefficients_files(verbose=self.verbose) ##need to be here <-- grain size 
         self.grain_size_distribution(fix_amax=Av_fixed_amax,fix_amax_value=fixed_amax_value)##must be after get_coefficient_files
 
-        U_0=self.U          ##hard copy of the initial radiation field
-        ngas_0=self.ngas    ##hard copy of the initial gas volume density
+        U_0       =self.U          ##hard copy of the initial radiation field
+        ngas_0    =self.ngas       ##hard copy of the initial gas volume density
+        mean_lam_0=self.mean_lam   ##hard copy of the initial mean wavelength
+        gamma_0   =self.gamma      ##hard copy of the initial anisotropic degree
+        amax_0    =self.amax       ##hard copy of the initial maximum grain size
 
         #call the starless_profile
         isoCloud_exe = isoCloud_class.isoCloud_profile()#(self)
@@ -470,6 +487,9 @@ class DustPOL:
         Av_ = isoCloud_exe.Av_func(self,r0)
 
         if get_info:
+            print('-----------Get radiation------------------')
+            log.info('U=%.3f '%self.U)                
+
             print('-----------Get ngas------------------')
             log.info('ngas_0=%.3e (cm-3)'%self.ngas)                
 
@@ -541,7 +561,7 @@ class DustPOL:
 
                 #print('-----------Get mean_lam-----------')
                 #print('mean_lam_init=',self.mean_lam*1e4)
-                self.mean_lam=isoCloud_exe.lamda_starless(1.3e-4,Av_compute[j])
+                self.mean_lam=isoCloud_exe.lamda_starless(mean_lam_0,Av_compute[j])
 
                 # self.ngas=starless_exe.ngas_starless(ngas_0,self.rflat)(np.sqrt(z_[j]*z_[j]+r0*r0))                
                 self.ngas=isoCloud_exe.ngas_starless(ngas_0,self.rflat,self.p)(r_compute) 
@@ -608,7 +628,7 @@ class DustPOL:
             data_emi['Iext']=Iext_emi
 
             self.Av_array=Av_
-            self.__init__(self.input_params_file) ##reset the initial parameters
+            self.__init__(self.input_params_file,**self.kwargs) ##reset the initial parameters
             DustPOL_io.output(self,output_abs,data_abs)
             DustPOL_io.output(self,output_emi,data_emi)
 
@@ -656,7 +676,7 @@ class DustPOL:
                 print('---------------------------------------------------')
                 print('cell number=%d/%d'%(i,len(r0_range)), 'r0=%.3e (pc)'%(r0/self.pc))
 
-                self.__init__(self.input_params_file) ##reset the initial parameters
+                self.__init__(self.input_params_file,**self.kwargs) ##reset the initial parameters
             
                 w,NH_,Av_,Iext_,pabs,pemi=self.isoCloud_los(
                                         r0,
@@ -688,7 +708,7 @@ class DustPOL:
                 futures = []
                 for r0 in r0_range:
                     # Reset initial parameters
-                    self.__init__(self.input_params_file)
+                    self.__init__(self.input_params_file,**self.kwargs)
                     try:
                         future = executor.submit(
                             self.isoCloud_los,
@@ -736,7 +756,7 @@ class DustPOL:
 
 
         self.Av_array=np.array(Av_array)
-        self.__init__(self.input_params_file) ##reset the initial parameters
+        self.__init__(self.input_params_file,**self.kwargs) ##reset the initial parameters
         #There is a draw back of this saveout method: 
         #  If the keys are the same (two exact value of Av)
         #  Save the last array!!!
