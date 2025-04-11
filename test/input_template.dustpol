@@ -31,7 +31,7 @@ Av             0        ![disable for the moment]
 !--------------------------------------------------------------------------------------------
 ! DUST SETTING
 !--------------------------------------------------------------------------------------------
-aligned_dust   astro    ![grain type] 'sil' or 'car' or 'sil+car' or 'astro'
+aligned_dust   astro    ![grain type] 'sil' or 'car' or 'sil+car' or 'astro' or 'astrop+pah'
 amin           3.1e-4   ![um]: mininum grain size
 amax           0.3     ![um]: maximum grain size
 Tdust          0        ![K]: dust temperature
